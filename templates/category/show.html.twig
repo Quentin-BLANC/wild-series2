@@ -7,7 +7,7 @@
     {% for program in programs %}
         <h2>{{ program.id }}/ {{ program.title }}</h2>
         <p>{{ program.summary }}</p>
-        <a href="{{ path("program_show", { id: program.id }) }}">
+        <a href="{{ path("program_show", { slug: program.slug }) }}">
             Voir la fiche
         </a>
     {% else %}

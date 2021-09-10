@@ -2,10 +2,15 @@
 
 namespace App\Service;
 
+use Symfony\Component\String\Slugger\AsciiSlugger;
+
 class Slugify
 {
     public function generate(string $input) : string
     {
-        return str_replace(" ", "-", $input);
+        $slugger = new AsciiSlugger();
+        $slug = $slugger->slug($input);
+        $slug = strtolower($slug);
+        return $slug;
     }
 }

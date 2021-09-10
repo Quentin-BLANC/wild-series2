@@ -11,6 +11,7 @@ use App\Entity\Season;
 use App\Entity\Episode;
 use App\Form\ProgramType;
 use App\Service\Slugify;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("/programs", name="program_")
@@ -52,8 +53,10 @@ class ProgramController extends AbstractController
             // Deal with the submitted data
             // Get the Entity Manager
             $entityManager = $this->getDoctrine()->getManager();
+            
             $slug = $slugify->generate($program->getTitle());
             $program->setSlug($slug);
+            
             // Persist Category Object
             $entityManager->persist($program);
             // Flush the persisted object
@@ -70,7 +73,7 @@ class ProgramController extends AbstractController
     /**
      * Getting a program by id
      * 
-     * @Route("/show/{id<^[0-9]+$>}", name="show")
+     * @Route("/{slug}", name="show")
      * @return Response
      */
     public function show(Program $program):Response
@@ -84,7 +87,7 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{program}/seasons/{season}", name="season_show")
+     * @Route("/{slug}/seasons/{season}", name="season_show")
      * @return Response
      */
     public function showSeason(Program $program, Season $season)
@@ -100,7 +103,8 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{program}/seasons/{season}/episodes/{episode}", name="episode_show")
+     * @Route("/{slug}/seasons/{season}/episodes/{episode_slug}", name="episode_show")
+     * @ParamConverter("episode", options={"mapping": {"episode_slug": "slug"}})
      */
     public function showEpisode(Program $program, Season $season, Episode $episode)
     {
