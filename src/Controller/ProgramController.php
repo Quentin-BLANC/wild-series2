@@ -11,12 +11,8 @@ use App\Entity\Season;
 use App\Entity\Episode;
 use App\Form\ProgramType;
 use App\Service\Slugify;
-<<<<<<< HEAD
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-=======
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
->>>>>>> 2f60389635f94844660da523af8432c76f90f395
 
 /**
  * @Route("/programs", name="program_")
