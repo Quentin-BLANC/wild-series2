@@ -1,0 +1,6 @@
+{% extends "baseMail.html.twig" %}
+
+{% block what %}episode {{ episode.number }} : {{ episode.title }} from the program {{ episode.season.program.title }}{% endblock %}
+{% block title %}episode {{ episode.number }} : {{ episode.title }} from the program {{ episode.season.program.title }}{% endblock %}
+{% block summary %}{{ episode.synopsis }}{% endblock %}
+{% block lien %}<a href="http://localhost:8000/episode/{{ episode.slug }}">Page de l'épisode</a>{% endblock %}
