@@ -11,10 +11,7 @@ use App\Entity\Season;
 use App\Entity\Episode;
 use App\Form\ProgramType;
 use App\Service\Slugify;
-<<<<<<< HEAD
-=======
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
->>>>>>> eb64ff7f4bf92b9302cc240a93fc80d66f8fc0ce
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
