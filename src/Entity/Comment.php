@@ -28,13 +28,13 @@ class Comment
     private $rate;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
-     * @ORM\ManyToOne(targetEntity=episode::class, inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity=Episode::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $episode;
