@@ -27,6 +27,18 @@ class UserFixtures extends Fixture
         ));
 
         $manager->persist($contributor);
+        $this->addReference('contributor', $contributor);
+
+        $contributorz = new User();
+        $contributorz->setEmail('contributor2@monsite.com');
+        $contributorz->setRoles(['ROLE_CONTRIBUTOR']);
+        $contributorz->setPassword($this->passwordEncoder->encodePassword(
+            $contributorz,
+            'contributor2password'
+        ));
+
+        $manager->persist($contributorz);
+        $this->addReference('contributor2', $contributorz);
 
         // Création d'un utilisateur de type "administrateur"
         $admin = new User();

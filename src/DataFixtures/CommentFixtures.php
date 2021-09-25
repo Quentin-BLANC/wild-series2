@@ -7,7 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class CommentFixtures extends Fixture
+class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -15,8 +15,8 @@ class CommentFixtures extends Fixture
         $comment = new Comment();
         $comment->setComment('commentaire'.$i);
         $comment->setRate($i);
-        $comment->setAuthor($this->getReference('contributor@monsite.com'));
-        $comment->setEpisode($this->getReference('episode'.$i));
+        $comment->setAuthor($this->getReference('contributor'));
+        $comment->setEpisode($this->getReference('episode '.$i));
         $manager->persist($comment);
         }
         $manager->flush();

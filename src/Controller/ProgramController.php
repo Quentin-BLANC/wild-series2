@@ -16,6 +16,7 @@ use App\Service\Slugify;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/programs", name="program_")
@@ -63,6 +64,9 @@ class ProgramController extends AbstractController
             
             // Persist Category Object
             $entityManager->persist($program);
+
+            $program->setOwner($this->getUser());
+
             // Flush the persisted object
             $entityManager->flush();
 
@@ -86,7 +90,7 @@ class ProgramController extends AbstractController
     /**
      * Getting a program by id
      * 
-     * @Route("/{slug}", name="show")
+     * @Route("/{slug}", name="show", methods={"GET"})
      * @return Response
      */
     public function show(Program $program):Response
@@ -99,6 +103,45 @@ class ProgramController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Program $program): Response
+    {
+        // Check wether the logged in user is the owner of the program
+        if (!($this->getUser() == $program->getOwner())) {
+            // If not the owner, throws a 403 Access Denied exeption
+            throw new AccessDeniedException('Only the owner can edit the program!');
+        }
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('program_index');
+        }
+
+        return $this->render('program/edit.html.twig', [
+            'program' => $program,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{slug}", name="delete", methods={"POST"})
+     */
+    public function delete(Request $request, Program $program): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($program);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('program_index');
+    }
+    
     /**
      * @Route("/{slug}/seasons/{season}", name="season_show")
      * @return Response
