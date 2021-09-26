@@ -40,8 +40,10 @@
   </div>
   {% if app.user %}
     {{ app.user.email }}
+    <a href="{{ path('app_profil') }}">Mon compte</a>
     <a href="{{ path('app_logout') }}">Se déconnecter</a>
   {% else %}
     <a href="{{ path('app_login') }}">Se connecter</a>
+    <a href="{{ path('app_register') }}">Créer un compte</a>
   {% endif %}
 </nav>

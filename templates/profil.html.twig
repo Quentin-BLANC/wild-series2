@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+
+    <h1>Mon compte</h1>
+
+    <h2>Séries ajoutées :</h2>
+    {% if app.user %}
+        <div>
+            {% for program in app.user.programs %}
+                <p>{{ program.title }}</p>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Vous n'êtes pas connecté</p>
+    {% endif %}
+    
+
+    <h2>Commentaires postés :</h2>
+    {% if app.user %}
+        {% for comment in app.user.comments %}
+            <p>{{ comment.episode.title }}: {{ comment.comment }}</p>
+        {% endfor %}
+    {% else %}
+        <p>Vous n'êtes pas connecté</p>
+    {% endif %}
+{% endblock %}
