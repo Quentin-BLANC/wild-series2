@@ -53,7 +53,7 @@ class ProgramController extends AbstractController
      * The controller for the program add form
      * Display the form or deal with it
      * 
-     * @Route("/new", name="new")
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     public function new(Request $request, Slugify $slugify, MailerInterface $mailer) : Response
     {   
@@ -87,6 +87,9 @@ class ProgramController extends AbstractController
                 ->html($this->renderView('program/newProgramEmail.html.twig', ['program' => $program]));
 
             $mailer->send($email);
+
+            // Once the form is submitted, valid and the data inserted in database, you can definethe success flash message
+            $this->addFlash('success', 'The new program has been created');
 
             // Finally redirect to categories list
             return $this->redirectToRoute('program_index');
@@ -129,6 +132,8 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('success', 'The program has been edited');
+
             return $this->redirectToRoute('program_index');
         }
 
@@ -147,6 +152,8 @@ class ProgramController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($program);
             $entityManager->flush();
+
+            $this->addFlash('danger', 'The program has been deleted');
         }
 
         return $this->redirectToRoute('program_index');
