@@ -13,6 +13,14 @@
     {% for program in programs %}
         <div>
             <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
+            {% if app.user %}
+                <a href="{{ path('program_watchlist', {slug: program.slug}) }}">
+                    <i class="bi {{ app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+                </a>
+            {% else %}
+                <i class="bi bi-heart"></i>
+                <p>Ce coeur correspond à la fonctionnalité "watchlist" à laquelle vous ne pouvez avoir accès qu'en ayant en compte.</p>
+            {% endif %}
             <p>{{ program.summary }}</p>
             {# Lien vers la fiche de la série : #}
             <a href="{{ path("program_show", { slug: program.slug }) }}">Voir la fiche</a>

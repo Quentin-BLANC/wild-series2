@@ -6,6 +6,17 @@
 
     <h1>Mon compte</h1>
 
+    <h2>Watchlist</h2>
+    {% if app.user %}
+        <div>
+            {% for program in app.user.watchlist %}
+                <p>{{ program.title }}</p>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Vous n'êtes pas connecté</p>
+    {% endif %}
+
     <h2>Séries ajoutées :</h2>
     {% if app.user %}
         <div>

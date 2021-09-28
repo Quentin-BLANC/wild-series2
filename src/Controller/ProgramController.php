@@ -14,7 +14,9 @@ use App\Form\ProgramType;
 use App\Form\CommentType;
 use App\Form\SearchProgramFormType;
 use App\Repository\ProgramRepository;
+use App\Repository\SeasonRepository;
 use App\Service\Slugify;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -202,5 +204,22 @@ class ProgramController extends AbstractController
             'comments' => $comments,
             "form" => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/{slug}/watchlist", name="watchlist", methods={"GET","POST"})
+     */
+    public function addToWatchList(Request $request, Program $program, EntityManagerInterface $entityManager)
+    {
+        if ($this->getUser()->getWatchlist()->contains($program)) {
+            $this->getUser()->removeFromWatchlist($program);
+        }
+        else {
+            $this->getUser()->addToWatchlist($program);
+        }
+        $entityManager->flush();
+
+        // ATTENTION 'HTTP_REFERER' semble pouvoir poser des problèmes de sécurité d'après internet
+        return $this->redirect($request->server->get('HTTP_REFERER'));
     }
 }
