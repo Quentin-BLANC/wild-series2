@@ -14,7 +14,6 @@ use App\Form\ProgramType;
 use App\Form\CommentType;
 use App\Form\SearchProgramFormType;
 use App\Repository\ProgramRepository;
-use App\Repository\SeasonRepository;
 use App\Service\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -219,7 +218,8 @@ class ProgramController extends AbstractController
         }
         $entityManager->flush();
 
-        // ATTENTION 'HTTP_REFERER' semble pouvoir poser des problèmes de sécurité d'après internet
-        return $this->redirect($request->server->get('HTTP_REFERER'));
+        return $this->json([
+            'isInWatchlist' => $this->getUser()->isInWatchlist($program)
+        ]);
     }
 }

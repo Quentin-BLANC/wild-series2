@@ -10,7 +10,7 @@
     {% if app.user %}
         <div>
             {% for program in app.user.watchlist %}
-                <p>{{ program.title }}</p>
+                <a href="{{ path("program_show", { slug: program.slug }) }}"><p>{{ program.title }}</p></a>
             {% endfor %}
         </div>
     {% else %}
@@ -21,7 +21,7 @@
     {% if app.user %}
         <div>
             {% for program in app.user.programs %}
-                <p>{{ program.title }}</p>
+                <a href="{{ path("program_show", { slug: program.slug }) }}"><p>{{ program.title }}</p></a>
             {% endfor %}
         </div>
     {% else %}
@@ -32,7 +32,7 @@
     <h2>Commentaires postés :</h2>
     {% if app.user %}
         {% for comment in app.user.comments %}
-            <p>{{ comment.episode.title }}: {{ comment.comment }}</p>
+            <a href="{{ path("episode_show", { slug: comment.episode.slug }) }}"><p>{{ comment.episode.title }}</p></a><p>: {{ comment.comment }}</p>
         {% endfor %}
     {% else %}
         <p>Vous n'êtes pas connecté</p>
