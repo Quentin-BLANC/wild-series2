@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %}All programs{% endblock %}
+
+{% block body %}
+    <h1>Toutes les séries</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button>Chercher</button>
+    {{ form_end(form) }}
+
+    {% for program in programs %}
+        <div>
+            <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
+            <img class="align-self-start mr-3" src="/uploads/{{ program.poster }}" alt="{{ program.title }} poster">
+            <p>{{ program.summary }}</p>
+            {# Lien vers la fiche de la série : #}
+            <a href="{{ path("program_show", { slug: program.slug }) }}">Voir la fiche</a>
+            <a href="{{ path("program_edit", { slug: program.slug }) }}">Editer série</a>
+        </div>
+    {% else %}
+        Aucune série trouvée.
+    {% endfor %}
+
+    <a href="{{ path("program_new") }}">Ajouter une série</a>
+
+    <div>
+        <a href="{{ path('app_index') }}">Retour à l'accueil</a>
+    </div>
+{% endblock %}

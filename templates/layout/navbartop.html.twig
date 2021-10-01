@@ -1,0 +1,11 @@
+<div class="btn-group">
+  <button type="button" class="btn btn-primary"><a href="{{ path('category_index') }}">Catégories</a></button>
+  <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <div class="dropdown-menu">
+    {% for category in categories %}
+        <a class="dropdown-item" href="{{ path('category_show', {categoryName:category.name}) }}">{{ category.name }}</a>
+    {% endfor %}
+  </div>
+</div>

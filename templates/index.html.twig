@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <h1>Bienvenue sur Wildseries2 !</h1>
+    <h2>Dernières séries ajoutées</h2>
+    {% for program in programs %}
+        <div>
+            <a href="{{ path('program_show', { slug: program.slug }) }}"><h3>{{ program.title }}</h3></a>
+            <p>Catégorie :{{ program.category.name }}</p>
+            <img class="align-self-start mr-3" src="/uploads/{{ program.poster }}" alt="{{ program.title }} poster">
+            <p>Résumé :{{ program.summary }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+
+    <h1>Mon compte</h1>
+
+    <h2>Watchlist</h2>
+    {% if app.user %}
+        <div>
+            {% for program in app.user.watchlist %}
+                <a href="{{ path("program_show", { slug: program.slug }) }}"><p>{{ program.title }}</p></a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Vous n'êtes pas connecté</p>
+    {% endif %}
+
+    <h2>Séries ajoutées :</h2>
+    {% if app.user %}
+        <div>
+            {% for program in app.user.programs %}
+                <a href="{{ path("program_show", { slug: program.slug }) }}"><p>{{ program.title }}</p></a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Vous n'êtes pas connecté</p>
+    {% endif %}
+    
+
+    <h2>Commentaires postés :</h2>
+    {% if app.user %}
+        {% for comment in app.user.comments %}
+            <a href="{{ path("episode_show", { slug: comment.episode.slug }) }}"><p>{{ comment.episode.title }}</p></a><p>: {{ comment.comment }}</p>
+        {% endfor %}
+    {% else %}
+        <p>Vous n'êtes pas connecté</p>
+    {% endif %}
+{% endblock %}

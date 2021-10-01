@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Episode {{ episode.id }}{% endblock %}
+
+{% block body %}
+
+    <h1>{{ program.title }}</h1>
+    <h2>Saison {{ season.number }}</h2>
+    <h3>Episode {{ episode.number }} : {{ episode.title }}</h3>
+    <p>{{ episode.synopsis }}</p>
+
+    <h3>Commentaires</h3>
+
+    {% if app.user %}
+        <p>Ajouter un commentaire</p>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Ajouter un commentaire">
+        {{ form_end(form) }}
+    {% endif %}
+
+    {% for comment in comments %}
+        <div>
+            <b>{{ comment.author.email }}</b>
+            <p>Note : {{ comment.rate }}</p>
+            <p>{{ comment.comment }}</p>
+            <a href="{{ path('comment_edit', {'id': comment.id}) }}">edit</a>
+        </div>
+    {% else %}
+        <p>Personne n'a encore commenté cet épisode</p>
+    {% endfor %}
+
+    <div>
+        <a href="{{ path('program_season_show', { slug: program.slug, season: season.id }) }}">Retour à la liste des épisodes</a>
+    </div>
+    
+{% endblock %}
